@@ -1,30 +1,45 @@
-📦 Deep SDK
+# 🛡️ Deep SDK
 
-A lightweight browser monitoring and proctoring SDK for detecting user behavior such as tab switching, fullscreen exit, and webcam activity — designed for online exams, assessments, and secure digital experiences.
+![npm version](https://img.shields.io/npm/v/deep-sdk)
+![license](https://img.shields.io/npm/l/deep-sdk)
+![downloads](https://img.shields.io/npm/dw/deep-sdk)
 
-✨ Features
-👁️ Tab switch detection
-🖥️ Fullscreen exit monitoring
-📷 Webcam activity tracking
-🔌 Simple API integration
-⚡ Lightweight and framework-agnostic
-🔐 API key-based authentication (SaaS-ready)
-📊 Event-based reporting system
-📥 Installation
-npm install @abusadiqq005/deep
+A lightweight **browser proctoring & monitoring SDK** for detecting suspicious behavior in online exams, assessments, and secure web sessions.
+
+Built for modern SaaS platforms, LMS systems, and fintech-grade identity verification flows.
+
+---
+
+## ⚡ Features
+
+- 👁 Tab switching detection
+- 🖥 Fullscreen exit monitoring
+- 📷 Webcam activity tracking
+- 🔔 Real-time event callbacks
+- 🔐 API key authentication
+- ⚡ Lightweight & framework-agnostic
+- 📡 Secure event reporting to backend
+
+---
+
+## 📦 Installation
+
+```bash
+npm install deep-sdk
 
 or
 
-yarn add @abusadiqq005/deep
+yarn add deep-sdk
 🚀 Quick Start
-import { initProctoring } from "@abusadiqq005/deep";
+import { initProctoring } from "deep-sdk";
 
 initProctoring({
   apiKey: "YOUR_API_KEY",
-  userId: "student_123",
+  userId: "user_123",
   sessionId: "exam_session_456",
+
   onEvent: (event) => {
-    console.log("Proctoring event:", event);
+    console.log("Event:", event);
   },
 });
 ⚙️ Configuration
@@ -33,23 +48,17 @@ type ProctorConfig = {
   userId: string;
   sessionId: string;
 
-  // Optional callbacks
   onEvent?: (event: ProctorEvent) => void;
-  onWarning?: (warning: ProctorWarning) => void;
-  onViolation?: (violation: ProctorViolation) => void;
+  onWarning?: (warning: string) => void;
+  onViolation?: (violation: string) => void;
 
-  // Behavior settings
-  enableFullscreenCheck?: boolean;
   enableTabSwitchDetection?: boolean;
+  enableFullscreenCheck?: boolean;
   enableWebcamMonitoring?: boolean;
 
-  endpoint?: string; // default backend endpoint
+  endpoint?: string;
 };
-📡 Events
-
-The SDK emits real-time events:
-
-🧾 Event Types
+📡 Event Types
 type ProctorEvent =
   | "TAB_SWITCH"
   | "FULLSCREEN_EXIT"
@@ -57,108 +66,75 @@ type ProctorEvent =
   | "WEBCAM_STARTED"
   | "WEBCAM_STOPPED"
   | "SUSPICIOUS_ACTIVITY";
-🧪 Example Usage
-initProctoring({
-  apiKey: "test_key",
-  userId: "user_001",
-  sessionId: "session_001",
-
-  onEvent: (event) => {
-    if (event.type === "TAB_SWITCH") {
-      console.log("User switched tab!");
-    }
-  },
-
-  onViolation: (violation) => {
-    console.log("Violation detected:", violation);
-  },
-});
-🔐 Authentication
-
-This SDK uses API key authentication.
-
-How it works:
-You generate an API key from your dashboard
-You pass it into the SDK
-All events are securely sent to your backend
-apiKey: "pk_live_xxxxxxxxx"
-🌐 Backend Integration
-
-Events are sent to:
-
-POST https://your-api.com/v1/proctor/events
-Payload Example:
-{
-  "apiKey": "pk_live_xxx",
-  "userId": "student_123",
-  "sessionId": "exam_456",
-  "event": "TAB_SWITCH",
-  "timestamp": 1710000000
-}
-🧠 How Monitoring Works
-1. Tab Switching
-
-Detects when user leaves exam tab.
-
-2. Fullscreen Monitoring
-
-Detects when user exits fullscreen mode.
-
-3. Webcam Monitoring
-
-Tracks camera activation and potential interruptions.
-
-🧱 Architecture Overview
-Frontend App (SDK)
-        ↓
-Event Monitor Layer
-        ↓
-API Service (secure request layer)
-        ↓
-Backend Proctoring API
-        ↓
-Database / Dashboard / Alerts
-📊 Dashboard Support (Coming / Optional)
-
-The SDK integrates with a dashboard that provides:
-
-Live exam monitoring
-Violation logs
-User session tracking
-Risk scoring per student
-🧰 Example React Integration
+🧪 Example (React)
 import { useEffect } from "react";
-import { initProctoring } from "@abusadiqq005/deep";
+import { initProctoring } from "deep-sdk";
 
-export default function ExamPage() {
+export default function Exam() {
   useEffect(() => {
     initProctoring({
       apiKey: "YOUR_KEY",
-      userId: "user_1",
-      sessionId: "session_1",
+      userId: "user_001",
+      sessionId: "session_001",
     });
   }, []);
 
   return <div>Exam in progress...</div>;
 }
-⚠️ Security Notes
-API keys must be kept private
-Do not expose keys in public frontend repos
-Always validate events on backend
-Use HTTPS endpoints only
-🛠️ Development
+🔐 Authentication
 
-Clone the repo:
+Deep SDK uses API key authentication.
 
-git clone https://github.com/your-org/deep.git
-cd deep
+How it works:
+Create API key in dashboard
+Pass it into SDK
+Events are securely sent to your backend
+apiKey: "pk_live_xxxxxxxxx"
+🌐 Event Payload
 
-Install dependencies:
+Events are sent to your backend:
 
+POST https://your-api.com/v1/proctor/events
+Example payload:
+{
+  "apiKey": "pk_live_xxx",
+  "userId": "user_123",
+  "sessionId": "exam_456",
+  "event": "TAB_SWITCH",
+  "timestamp": 1710000000
+}
+🧠 How It Works
+Frontend SDK
+   ↓
+Event Monitoring Layer
+   ↓
+Secure API Service
+   ↓
+Backend Database
+   ↓
+Admin Dashboard
+🧱 Use Cases
+Online exams & CBT platforms
+Remote hiring assessments
+Identity verification flows
+Training & certification platforms
+Secure fintech onboarding
+📊 Roadmap
+ AI-based cheating detection
+ Face tracking & attention scoring
+ Screen recording support
+ LMS integrations (Moodle, etc.)
+ Real-time supervisor dashboard
+ Risk scoring engine
+⚠️ Security
+Keep API keys private
+Always use HTTPS endpoints
+Validate all events on backend
+Do not expose keys in frontend repos
+🛠 Development
+git clone https://github.com/your-org/deep-sdk
+cd deep-sdk
 npm install
-
-Build:
-
 npm run build
 📦 Build Output
 dist/
@@ -166,23 +142,40 @@ dist/
  ├── index.mjs
  ├── index.global.js
  ├── index.d.ts
-🚀 Publishing
-npm run build
+🚀 Publish
 npm version patch
-npm publish --access public
-📈 Roadmap
- AI cheating detection (face movement analysis)
- Screen recording (optional)
- Multi-camera support
- LMS integrations (Moodle, Google Classroom)
- Real-time supervisor dashboard
- Risk scoring engine
-🤝 Support
-
-For issues or integrations:
-
-Email: support@yourdomain.com
-Dashboard: https://yourdomain.com/dashboard
+npm publish
 📄 License
 
-MIT License © 2026 Deep SDK
+MIT © 2026 Deep SDK
+
+
+---
+
+# 🔥 Why this README performs better on npm
+
+- Clean hierarchy (npm readers skim fast)
+- Badges for trust
+- Short sections (mobile-friendly)
+- Clear install + usage first
+- Architecture simplified visually
+- Strong SaaS positioning (important for adoption)
+
+---
+
+# 🚀 If you want next upgrade
+
+I can help you:
+
+### 1. Make your npm page look like Stripe-level SDK
+- add logo banner
+- CLI demo section
+- interactive examples
+
+### 2. Improve package discoverability
+- keywords optimization
+- npm SEO tuning
+
+### 3. Build your real SaaS backend (API + dashboard + billing)
+
+Just say **“next”** 👍
