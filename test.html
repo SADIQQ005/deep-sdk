@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test SDK</title>
+</head>
+<body>
+
+<button onclick="startExam()">Start Exam</button>
+
+<script src="./dist/index.global.js"></script>
+
+<script>
+  window.startExam = function () {
+    ProctorSDK.startProctoring({
+      examId: "exam_001",
+      userId: "user_123",
+      apiUrl: "http://localhost:3000"
+    });
+  };
+</script>
+
+</body>
+</html>
